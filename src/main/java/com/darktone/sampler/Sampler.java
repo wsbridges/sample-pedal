@@ -23,6 +23,10 @@ public class Sampler {
 		Presets presets = gson.fromJson(json, Presets.class);
 		this.presets = presets.getPresets();
 		lastPreset = this.presets.size() - 1;
+		
+		for( Preset preset : this.presets ) {
+			preset.loadPreset();
+		}
 		changePreset( 0 );
 	}
 	
@@ -62,7 +66,6 @@ public class Sampler {
 		getCurrentPreset().shutdown();
 		currentPreset = num;
 		Preset preset = presets.get( num );
-		preset.loadPreset();
 	}
 	
 	public static void main( String ... args ) throws Exception {

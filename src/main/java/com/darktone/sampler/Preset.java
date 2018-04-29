@@ -78,8 +78,8 @@ public class Preset {
 				if( clip != null ) {
 					if( clip.isRunning() ) {
 						clip.stop();
+						clip.setFramePosition(0);
 					}
-					clip.close();
 				}
 			}
 		}

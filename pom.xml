@@ -9,24 +9,6 @@
 	<build>
 		<finalName>sample-pedal</finalName>
 		<plugins>
-<!-- 			<plugin> -->
-<!-- 				<groupId>org.apache.maven.plugins</groupId> -->
-<!-- 				<artifactId>maven-jar-plugin</artifactId> -->
-<!-- 				<version>2.3.2</version> -->
-<!-- 				<configuration> -->
-<!-- 					<archive> -->
-<!-- 						<manifest> -->
-<!-- 							<addClasspath>true</addClasspath> -->
-<!-- 							<mainClass>com.darktone.sampler.Sampler</mainClass> -->
-<!-- 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries> -->
-<!-- 							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries> -->
-<!-- 						</manifest> -->
-<!-- 						<manifestEntries> -->
-<!-- 							<Class-Path>.</Class-Path> -->
-<!-- 						</manifestEntries> -->
-<!-- 					</archive> -->
-<!-- 				</configuration> -->
-<!-- 			</plugin> -->
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -51,31 +33,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- <plugin> -->
-			<!-- <groupId>org.apache.maven.plugins</groupId> -->
-			<!-- <artifactId>maven-shade-plugin</artifactId> -->
-			<!-- <version>3.1.0</version> -->
-			<!-- <executions> -->
-			<!-- <execution> -->
-			<!-- <phase>package</phase> -->
-			<!-- <goals> -->
-			<!-- <goal>shade</goal> -->
-			<!-- </goals> -->
-
-			<!-- <configuration> -->
-			<!-- <minimizeJar>false</minimizeJar> -->
-			<!-- <transformers> -->
-			<!-- <transformer -->
-			<!-- implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"> -->
-			<!-- <mainClass>com.darktone.sampler.Sampler</mainClass> -->
-			<!-- </transformer> -->
-			<!-- </transformers> -->
-			<!-- <createDependencyReducedPom>false</createDependencyReducedPom> -->
-			<!-- <finalName>${project.artifactId}</finalName> -->
-			<!-- </configuration> -->
-			<!-- </execution> -->
-			<!-- </executions> -->
-			<!-- </plugin> -->
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
