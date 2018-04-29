@@ -23,6 +23,8 @@ public class Controller {
         // keep program running until user aborts (CTRL-C)
         while(true) {
             Thread.sleep(500);
+            System.out.println(" --> GPIO PIN STATE: " + myButton.getPin() + " = "
+                    + myButton.getState());
         }
 	}
 }
