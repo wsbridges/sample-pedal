@@ -16,6 +16,21 @@ public class Sampler {
 	private List<Preset> presets;
 	private int currentPreset = 0;
 	private int lastPreset = 0;
+	
+	private static Sampler sampler;
+	
+	private Sampler() {
+		
+	}
+	
+	public static Sampler createInstance() throws Exception {
+		if( sampler == null ) {
+			sampler = new Sampler();
+			sampler.initialize();
+		}
+		
+		return sampler;
+	}
 
 	public void initialize() throws Exception {
 		Gson gson = new Gson();
