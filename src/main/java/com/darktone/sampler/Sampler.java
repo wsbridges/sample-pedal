@@ -63,6 +63,11 @@ public class Sampler {
 		}
 	}
 	
+	public boolean isSamplePlaying( int i ) {
+		Preset preset = getCurrentPreset();
+		return preset.isRunning(i);
+	}
+	
 	public void playSample( int i ) {
 		Preset preset = getCurrentPreset();
 		preset.startSample( i );

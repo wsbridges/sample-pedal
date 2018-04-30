@@ -57,6 +57,11 @@ public class Preset {
 		}
 	}
 	
+	public boolean isRunning( int i ) {
+		Clip sample = clips.get(i);
+		return sample.isRunning();
+	}
+	
 	public void stopSample( int i ) {
 		Clip sample = clips.get(i);
 		if( sample.isRunning() ) {
