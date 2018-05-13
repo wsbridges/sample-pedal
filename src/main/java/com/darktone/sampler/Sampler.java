@@ -8,6 +8,12 @@ import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 
+import paulscode.sound.SoundSystem;
+import paulscode.sound.SoundSystemConfig;
+import paulscode.sound.SoundSystemException;
+import paulscode.sound.codecs.CodecWav;
+import paulscode.sound.libraries.LibraryJavaSound;
+
 import com.google.gson.Gson;
 
 public class Sampler {
@@ -89,6 +95,15 @@ public class Sampler {
 	}
 	
 	public static void main( String ... args ) throws Exception {
+//		
+//		SoundSystem soundSystem;
+//		SoundSystemConfig.addLibrary(LibraryJavaSound.class);
+//		SoundSystemConfig.setCodec("wav", CodecWav.class);
+//		
+//	    soundSystem = new SoundSystem();
+//	    
+//	    soundSystem.newStreamingSource(false, "1", new File("/var/opt/samples/We will see how the Lord favors you.wav").toURI().toURL(), "We will see how the Lord favors you.wav", false, 0, 0, 0, SoundSystemConfig.ATTENUATION_NONE, SoundSystemConfig.getDefaultRolloff());
+//	    soundSystem.play("1");
 		Sampler sampler = new Sampler();
 		sampler.initialize();
 		
@@ -98,6 +113,7 @@ public class Sampler {
 		Thread.sleep(5000);
 		
 		sampler.prevPreset();
+		Thread.sleep(1000);
 		sampler.playSample(0);
 		Thread.sleep(1000);
 		sampler.playSample(1);
