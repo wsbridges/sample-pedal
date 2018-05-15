@@ -1,5 +1,12 @@
 package com.darktone.sampler;
 
+import java.io.Console;
+
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.PixelFormat;
+
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalInput;
@@ -14,6 +21,56 @@ public class Controller {
 		Sampler sampler = Sampler.createInstance();
 		System.out.println("Sampler initialized");
 		
+		raspberryPiSetup();
+		
+	}
+	
+	public static void keyPressSetup( Sampler sampler) throws Exception {
+		Display.setDisplayMode(new DisplayMode(0, 0));
+		Display.create();
+		Keyboard.create();
+		while( !Display.isCloseRequested()) {
+			while(Keyboard.next()) {
+				if( Keyboard.getEventKey() == Keyboard.KEY_A ) {
+					if(Keyboard.getEventKeyState()) {
+						System.out.println("A was pressed");
+						if( sampler.isSamplePlaying(0)) {
+							System.out.println("Stopping sample 0");
+							sampler.stopSample(0);
+						}
+						else {
+							System.out.println("Playing sample 0");
+							sampler.playSample( 0 );
+						}
+					}
+					else {
+						System.out.println( "A was released");
+					}
+				}
+				else if( Keyboard.getEventKey() == Keyboard.KEY_S) {
+	
+					if(Keyboard.getEventKeyState()) {
+						System.out.println("S was pressed");
+						if( sampler.isSamplePlaying(1)) {
+							System.out.println("Stopping sample 1");
+							sampler.stopSample(1);
+						}
+						else {
+							System.out.println("Playing sample 1");
+							sampler.playSample( 1 );
+						}
+					}
+					else {
+						System.out.println( "S was released");
+					}
+				}
+			}
+			Display.update();
+		}
+		Display.destroy();
+	}
+	
+	public static void raspberryPiSetup() throws Exception {
 		final GpioController gpio = GpioFactory.getInstance();
 
         // provision gpio pin #02 as an input pin with its internal pull down resistor enabled

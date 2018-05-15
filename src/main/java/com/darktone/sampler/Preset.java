@@ -18,6 +18,7 @@ import paulscode.sound.SoundSystemConfig;
 import paulscode.sound.SoundSystemException;
 import paulscode.sound.codecs.CodecWav;
 import paulscode.sound.libraries.LibraryJavaSound;
+import paulscode.sound.libraries.LibraryLWJGLOpenAL;
 
 public class Preset {
 
@@ -31,7 +32,8 @@ public class Preset {
 	
 	static {
 		try {
-			SoundSystemConfig.addLibrary(LibraryJavaSound.class);
+//			SoundSystemConfig.addLibrary(LibraryJavaSound.class);
+			SoundSystemConfig.addLibrary(LibraryLWJGLOpenAL.class);
 			SoundSystemConfig.setCodec("wav", CodecWav.class);
 //			SoundSystemConfig.setNumberNormalChannels(0);
 //			SoundSystemConfig.setNumberStreamingChannels(32);
@@ -107,7 +109,12 @@ public class Preset {
 //		Clip sample = clips.get(i);
 //		sample.stop();
 //		sample.setFramePosition(0);
-		soundSystem.stop(presetNum + "-" + i);
+		System.out.println( "In stopSample" );
+		if( isRunning( i ) ) {
+			System.out.println( "Stopping sample " + i );
+			soundSystem.stop(presetNum + "-" + i);
+			System.out.println( "Done Stopping sampel " + i);
+		}
 	}
 	
 	public void pauseSample( int i ) {
