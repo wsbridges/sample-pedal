@@ -10,8 +10,12 @@ import org.lwjgl.opengl.PixelFormat;
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalInput;
+import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.PinPullResistance;
+import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
+import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
+import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 
 public class Controller {
 
@@ -72,21 +76,40 @@ public class Controller {
 	
 	public static void raspberryPiSetup() throws Exception {
 		final GpioController gpio = GpioFactory.getInstance();
-
-        // provision gpio pin #02 as an input pin with its internal pull down resistor enabled
-        final GpioPinDigitalInput myButton = gpio.provisionDigitalInputPin(RaspiPin.GPIO_01, "Pin 18", PinPullResistance.PULL_UP);
-        final GpioPinDigitalInput myButton2 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_04, "Pin 23", PinPullResistance.PULL_UP);
-        //myButton.addListener( new ButtonListener() );
-        myButton2.addListener( new ButtonListener() );
-        System.out.println(" --> GPIO PIN STATE: " + myButton.getPin() + " = "
-                + myButton.getState());
-        System.out.println(" --> GPIO PIN STATE: " + myButton2.getPin() + " = "
-                + myButton2.getState());
+		setupSampleButton(gpio, RaspiPin.GPIO_01, 0);
+		setupSampleButton(gpio, RaspiPin.GPIO_04, 1);
 
         // keep program running until user aborts (CTRL-C)
         while(true) {
             Thread.sleep(200);
             
         }
+	}
+	
+	private static void setupSampleButton( final GpioController gpio, Pin pin, final int sampleNum ) {
+		GpioPinDigitalInput button = gpio.provisionDigitalInputPin(pin, PinPullResistance.PULL_UP);
+		button.addListener( new GpioPinListenerDigital() {
+			@Override
+			public void handleGpioPinDigitalStateChangeEvent(
+					GpioPinDigitalStateChangeEvent event) {
+				if( event.getState() == PinState.LOW ) {
+					try {
+						Sampler sampler = Sampler.createInstance();
+						if( sampler.isSamplePlaying(sampleNum)) {
+							System.out.println("Stopping sample " + sampleNum);
+							sampler.stopSample(sampleNum);
+						}
+						else {
+							System.out.println("Playing sample " + sampleNum);
+							sampler.playSample(sampleNum);
+						}
+					}
+					catch(Exception e) {
+						throw new RuntimeException(e);
+					}
+						
+				}
+			}
+		});
 	}
 }
