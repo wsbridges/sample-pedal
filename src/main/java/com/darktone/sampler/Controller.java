@@ -7,6 +7,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
 
+import com.pi4j.component.lcd.impl.I2CLcdDisplay;
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalInput;
@@ -16,6 +17,8 @@ import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
+import com.pi4j.io.i2c.I2CBus;
+import com.pi4j.wiringpi.Lcd;
 
 public class Controller {
 
@@ -76,6 +79,15 @@ public class Controller {
 	
 	public static void raspberryPiSetup() throws Exception {
 		final GpioController gpio = GpioFactory.getInstance();
+		
+		I2CLcdDisplay lcd = new I2CLcdDisplay(2, 16, I2CBus.BUS_1, 0x20, 7, 1, 0, 2, 6, 5, 4, 3);
+		lcd.clear();
+		lcd.setBacklight(true);
+		Thread.sleep(500);
+		lcd.setBacklight(false);
+		Thread.sleep(500);
+		lcd.setBacklight(true);
+		lcd.setBacklight(false);
 		setupSampleButton(gpio, RaspiPin.GPIO_01, 0);
 		setupSampleButton(gpio, RaspiPin.GPIO_04, 1);
 
