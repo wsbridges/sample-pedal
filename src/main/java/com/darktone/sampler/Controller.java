@@ -79,7 +79,14 @@ public class Controller {
 	
 	public static void raspberryPiSetup() throws Exception {
 		final GpioController gpio = GpioFactory.getInstance();
-		I2CLcdDisplay lcd = new I2CLcdDisplay(2, 16, I2CBus.BUS_0, 0x20, 7, 1, 0, 2, 6, 5, 4, 3);
+		//RS=1
+		//E=2
+		//DB4=3
+		//DB5=4
+		//DB6=5
+		//DB7=6
+		//Light=7
+		I2CLcdDisplay lcd = new I2CLcdDisplay(2, 16, I2CBus.BUS_1, 0x20, 7, 1, 0, 2, 6, 5, 4, 3);
 		lcd.clear();
 		lcd.setCursorHome();
 		lcd.write("Hello");
