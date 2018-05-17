@@ -7,6 +7,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
 
+import com.pi4j.component.lcd.impl.GpioLcdDisplay;
 import com.pi4j.gpio.extension.mcp.MCP23008GpioProvider;
 import com.pi4j.gpio.extension.mcp.MCP23008Pin;
 import com.pi4j.io.gpio.GpioController;
@@ -90,8 +91,8 @@ public class Controller {
 		//Light=7
 
         
-		I2CLcdDisplay lcd= new I2CLcdDisplay();
-		lcd.test( gpio );
+//		I2CLcdDisplay lcd= new I2CLcdDisplay();
+//		lcd.test( gpio );
 		
 //		I2CLcdDisplay lcd = new I2CLcdDisplay(2, 16, I2CBus.BUS_1, 0x20, MCP23008Pin.GPIO_07.getAddress(), MCP23008Pin.GPIO_01.getAddress(), MCP23008Pin.GPIO_00.getAddress(), MCP23008Pin.GPIO_02.getAddress(), MCP23008Pin.GPIO_06.getAddress(), MCP23008Pin.GPIO_05.getAddress(), MCP23008Pin.GPIO_04.getAddress(), MCP23008Pin.GPIO_03.getAddress());
 //		lcd.clear();
@@ -105,6 +106,18 @@ public class Controller {
 //		Thread.sleep(500);
 //		lcd.setBacklight(true);
 //		lcd.setBacklight(false);
+		
+		final GpioLcdDisplay lcd = new GpioLcdDisplay(2,    // number of row supported by LCD
+                16,       // number of columns supported by LCD
+                RaspiPin.GPIO_00,  // LCD RS pin
+                RaspiPin.GPIO_02,  // LCD strobe pin
+                RaspiPin.GPIO_03,  // LCD data bit D4
+                RaspiPin.GPIO_05,  // LCD data bit D5
+                RaspiPin.GPIO_06,  // LCD data bit D6
+                RaspiPin.GPIO_07); // LCD data bit D7
+		lcd.clear();
+		lcd.setCursorHome();
+		lcd.write("Fuck this LCD");
 		setupSampleButton(gpio, RaspiPin.GPIO_01, 0);
 		setupSampleButton(gpio, RaspiPin.GPIO_04, 1);
 
