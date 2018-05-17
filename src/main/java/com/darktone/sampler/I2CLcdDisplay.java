@@ -31,13 +31,15 @@ public class I2CLcdDisplay {
 		System.out.println("Strting up the MCP23017 based 16x2 LCD Example");
         I2CBus bus = I2CFactory.getInstance(I2CBus.BUS_1); //
         MCP23008GpioProvider prov = new MCP23008GpioProvider(I2CBus.BUS_1, 0x20);
-        gpio.provisionDigitalOutputPin(prov, MCP23008Pin.GPIO_01);
-        gpio.provisionDigitalOutputPin(prov, MCP23008Pin.GPIO_02);
+        gpio.provisionDigitalOutputPin(prov, MCP23008Pin.GPIO_01);//RS
+        gpio.provisionDigitalOutputPin(prov, MCP23008Pin.GPIO_02);//E
         gpio.provisionDigitalOutputPin(prov, MCP23008Pin.GPIO_03);
         gpio.provisionDigitalOutputPin(prov, MCP23008Pin.GPIO_04);
         gpio.provisionDigitalOutputPin(prov, MCP23008Pin.GPIO_05);
         gpio.provisionDigitalOutputPin(prov, MCP23008Pin.GPIO_06);
-        GpioLcdDisplay display = new GpioLcdDisplay(2, 16, MCP23008Pin.GPIO_01, MCP23008Pin.GPIO_02, MCP23008Pin.GPIO_00, MCP23008Pin.GPIO_00, MCP23008Pin.GPIO_00, MCP23008Pin.GPIO_00, MCP23008Pin.GPIO_03, MCP23008Pin.GPIO_04, MCP23008Pin.GPIO_05, MCP23008Pin.GPIO_06);
+        gpio.provisionDigitalOutputPin(prov, MCP23008Pin.GPIO_07);
+        com.pi4j.component.lcd.impl.I2CLcdDisplay display = new com.pi4j.component.lcd.impl.I2CLcdDisplay(2, 16, I2CBus.BUS_1, 0x20, MCP23008Pin.GPIO_07.getAddress(), MCP23008Pin.GPIO_01.getAddress(), MCP23008Pin.GPIO_00.getAddress(), MCP23008Pin.GPIO_02.getAddress(), MCP23008Pin.GPIO_06.getAddress(), MCP23008Pin.GPIO_05.getAddress(), MCP23008Pin.GPIO_04.getAddress(), MCP23008Pin.GPIO_03.getAddress());
+//        GpioLcdDisplay display = new GpioLcdDisplay(2, 16, MCP23008Pin.GPIO_01, MCP23008Pin.GPIO_02, MCP23008Pin.GPIO_03, MCP23008Pin.GPIO_04, MCP23008Pin.GPIO_05, MCP23008Pin.GPIO_06);
 
         display.clear();
         display.setCursorHome();
