@@ -1,8 +1,14 @@
 package com.darktone.sampler;
 
+import com.pi4j.component.lcd.impl.GpioLcdDisplay;
+import com.pi4j.gpio.extension.mcp.MCP23008GpioProvider;
+import com.pi4j.gpio.extension.mcp.MCP23008Pin;
+import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
+import com.pi4j.wiringpi.Gpio;
+
 import java.util.BitSet;
 
 public class I2CLcdDisplay {
@@ -21,45 +27,51 @@ public class I2CLcdDisplay {
     int         D5_PIN=4;//Pin of MCP23017  PORTB/A connected LCD D5 pin
     int         D4_PIN=3;//Pin of MCP23017 PORTB/A connected LCD D4 pin
 
-	public void test() throws Exception{
+	public void test( GpioController gpio ) throws Exception{
 		System.out.println("Strting up the MCP23017 based 16x2 LCD Example");
         I2CBus bus = I2CFactory.getInstance(I2CBus.BUS_1); //
+        MCP23008GpioProvider prov = new MCP23008GpioProvider(I2CBus.BUS_1, 0x20);
+        gpio.provisionDigitalOutputPin(prov, MCP23008Pin.GPIO_01);
+        gpio.provisionDigitalOutputPin(prov, MCP23008Pin.GPIO_02);
+        gpio.provisionDigitalOutputPin(prov, MCP23008Pin.GPIO_03);
+        gpio.provisionDigitalOutputPin(prov, MCP23008Pin.GPIO_04);
+        gpio.provisionDigitalOutputPin(prov, MCP23008Pin.GPIO_05);
+        gpio.provisionDigitalOutputPin(prov, MCP23008Pin.GPIO_06);
+        GpioLcdDisplay display = new GpioLcdDisplay(2, 16, MCP23008Pin.GPIO_01, MCP23008Pin.GPIO_02, MCP23008Pin.GPIO_00, MCP23008Pin.GPIO_00, MCP23008Pin.GPIO_00, MCP23008Pin.GPIO_00, MCP23008Pin.GPIO_03, MCP23008Pin.GPIO_04, MCP23008Pin.GPIO_05, MCP23008Pin.GPIO_06);
 
-        dev = bus.getDevice(0x20); //Address for MCp23017 change if A0,A1,A2 are connected to diff potenrial
-        
-        dev.write(0x01, (byte) 0x00); //Initialized PORT B of MCP23017 to use as ouput.
-        
-		I2CLcdDisplay lcd= new I2CLcdDisplay();
+        display.clear();
+        display.setCursorHome();
+        display.write("Hello");
 		
-		lcd.init(); //LCD Initialization Routine
-		
-		lcd.lcd_byte(0x01, LCD_CMD); //LCD Clear Command
-		lcd.lcd_byte(0x02, LCD_CMD); //LCD Home Command
-		lcd.write("WeArGenius");
-		lcd.setCursorPosition(1, 0);
-		lcd.write("weargenius.in");
-		
-		Thread.sleep(2000);
+//		lcd.init(); //LCD Initialization Routine
+//		
+//		lcd.lcd_byte(0x01, LCD_CMD); //LCD Clear Command
+//		lcd.lcd_byte(0x02, LCD_CMD); //LCD Home Command
+//		lcd.write("WeArGenius");
+//		lcd.setCursorPosition(1, 0);
+//		lcd.write("weargenius.in");
+//		
+//		Thread.sleep(2000);
 //		while(true){
-			lcd.lcd_byte(0x01, LCD_CMD); //LCD Clear
-			lcd.setCursorPosition(1, 0);
-			lcd.write("Embedded");
-			Thread.sleep(3000);
-			
-			lcd.lcd_byte(0x01, LCD_CMD); //LCD Clear
-			lcd.setCursorPosition(1, 0);
-			lcd.write("Home Automation");
-			Thread.sleep(3000);
-			
-			lcd.lcd_byte(0x01, LCD_CMD); //LCD Clear
-			lcd.setCursorPosition(1, 0);
-			lcd.write("IOT");
-			Thread.sleep(3000);
-			
-			lcd.lcd_byte(0x01, LCD_CMD); //LCD Clear
-			lcd.setCursorPosition(1, 0);
-			lcd.write("Programming");
-			Thread.sleep(3000);
+//			lcd.lcd_byte(0x01, LCD_CMD); //LCD Clear
+//			lcd.setCursorPosition(1, 0);
+//			lcd.write("Embedded");
+//			Thread.sleep(3000);
+//			
+//			lcd.lcd_byte(0x01, LCD_CMD); //LCD Clear
+//			lcd.setCursorPosition(1, 0);
+//			lcd.write("Home Automation");
+//			Thread.sleep(3000);
+//			
+//			lcd.lcd_byte(0x01, LCD_CMD); //LCD Clear
+//			lcd.setCursorPosition(1, 0);
+//			lcd.write("IOT");
+//			Thread.sleep(3000);
+//			
+//			lcd.lcd_byte(0x01, LCD_CMD); //LCD Clear
+//			lcd.setCursorPosition(1, 0);
+//			lcd.write("Programming");
+//			Thread.sleep(3000);
 //		}
 	}
 	

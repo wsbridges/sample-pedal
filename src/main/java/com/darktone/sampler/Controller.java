@@ -91,7 +91,7 @@ public class Controller {
 
         
 		I2CLcdDisplay lcd= new I2CLcdDisplay();
-		lcd.test();
+		lcd.test( gpio );
 		
 //		I2CLcdDisplay lcd = new I2CLcdDisplay(2, 16, I2CBus.BUS_1, 0x20, MCP23008Pin.GPIO_07.getAddress(), MCP23008Pin.GPIO_01.getAddress(), MCP23008Pin.GPIO_00.getAddress(), MCP23008Pin.GPIO_02.getAddress(), MCP23008Pin.GPIO_06.getAddress(), MCP23008Pin.GPIO_05.getAddress(), MCP23008Pin.GPIO_04.getAddress(), MCP23008Pin.GPIO_03.getAddress());
 //		lcd.clear();
