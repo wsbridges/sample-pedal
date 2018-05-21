@@ -117,7 +117,7 @@ public class Controller {
                 RaspiPin.GPIO_07); // LCD data bit D7
 		lcd.clear();
 		lcd.setCursorHome();
-		lcd.write("Fuck this LCD");
+		lcd.write("Does this work?");
 		setupSampleButton(gpio, RaspiPin.GPIO_01, 0);
 		setupSampleButton(gpio, RaspiPin.GPIO_04, 1);
 
