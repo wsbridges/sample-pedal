@@ -1,7 +1,6 @@
 package com.darktone.sampler.io;
 
 import com.pi4j.io.gpio.Pin;
-import com.pi4j.wiringpi.Gpio;
 import com.pi4j.wiringpi.SoftPwm;
 
 public class SharedBacklitLCD extends SharedLCD implements BacklitLCD {
@@ -12,8 +11,6 @@ public class SharedBacklitLCD extends SharedLCD implements BacklitLCD {
 	public SharedBacklitLCD(Pin ePin, Pin backlightPin, int rows, int cols) {
 		super(ePin, rows, cols);
 		this.backlightPin = backlightPin;
-		
-		Gpio.wiringPiSetup(); //This is required for PWM
 		
 		SoftPwm.softPwmCreate(backlightPin.getAddress(), 0, 100);
 	}

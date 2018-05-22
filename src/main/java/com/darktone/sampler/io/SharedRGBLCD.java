@@ -1,7 +1,6 @@
 package com.darktone.sampler.io;
 
 import com.pi4j.io.gpio.Pin;
-import com.pi4j.wiringpi.Gpio;
 import com.pi4j.wiringpi.SoftPwm;
 
 /**
@@ -24,8 +23,6 @@ public class SharedRGBLCD extends SharedLCD implements BacklitLCD {
 		this.redPin = redPin;
 		this.greenPin = greenPin;
 		this.bluePin = bluePin;
-		
-		Gpio.wiringPiSetup(); //This is required for PWM
 		
 		SoftPwm.softPwmCreate(redPin.getAddress(), 0, 100);
 		SoftPwm.softPwmCreate(greenPin.getAddress(), 0, 100);

@@ -10,6 +10,7 @@ import com.pi4j.component.lcd.LCDTextAlignment;
 import com.pi4j.component.lcd.impl.GpioLcdDisplay;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.RaspiPin;
+import com.pi4j.wiringpi.Gpio;
 
 public class Controller {
 
@@ -28,7 +29,8 @@ public class Controller {
 	}
 	
 	public static void raspberryPiSetup() throws Exception {
-
+		Gpio.wiringPiSetup();
+		
 		final SharedLCD lcd = new SharedLCD(RaspiPin.GPIO_02, 2, 16);
 		lcd.clearAndWrite(0, "Initializing...", LCDTextAlignment.ALIGN_CENTER);
 		
