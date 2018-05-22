@@ -2,6 +2,11 @@ package com.darktone.sampler;
 
 import java.util.List;
 
+/**
+ * Wrapper to make JSON parsing easier.
+ * 
+ * @author Bill
+ */
 public class Presets {
 	private List<Preset> presets;
 
