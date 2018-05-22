@@ -4,6 +4,7 @@ package com.darktone.sampler;
 //import org.lwjgl.opengl.Display;
 //import org.lwjgl.opengl.DisplayMode;
 
+import com.darktone.sampler.io.RotaryEncoder;
 import com.darktone.sampler.io.SampleButton;
 import com.darktone.sampler.io.SharedLCD;
 import com.pi4j.component.lcd.LCDTextAlignment;
@@ -39,6 +40,8 @@ public class Controller {
 		
 		SampleButton.provisionSampleButton(BUTTON_1_PIN, 0, lcd);
 		SampleButton.provisionSampleButton(BUTTON_2_PIN, 1, lcd);
+		
+		RotaryEncoder enc = new RotaryEncoder(RaspiPin.GPIO_27, RaspiPin.GPIO_28, lcd);
 
 		lcd.clearAndWrite(0, "Ready", LCDTextAlignment.ALIGN_CENTER);
         // keep program running until user aborts (CTRL-C)
