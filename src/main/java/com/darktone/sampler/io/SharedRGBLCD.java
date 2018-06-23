@@ -28,7 +28,7 @@ public class SharedRGBLCD extends SharedLCD implements BacklitLCD {
 	private int greenPercent=100;
 	private int bluePercent=100;
 	
-	public SharedRGBLCD(Pin ePin, Pin redPin, Pin bluePin, Pin greenPin, int rows, int cols) {
+	public SharedRGBLCD(Pin ePin, Pin redPin, Pin greenPin, Pin bluePin, int rows, int cols) {
 		super(ePin, rows, cols);
 		this.redPin = redPin;
 		this.greenPin = greenPin;
