@@ -7,6 +7,7 @@ package com.darktone.sampler;
 import com.darktone.sampler.io.RotaryEncoder;
 import com.darktone.sampler.io.SampleButton;
 import com.darktone.sampler.io.SharedLCD;
+import com.darktone.sampler.io.SharedRGBLCD2x16;
 import com.pi4j.component.lcd.LCDTextAlignment;
 import com.pi4j.component.lcd.impl.GpioLcdDisplay;
 import com.pi4j.io.gpio.Pin;
@@ -32,7 +33,7 @@ public class Controller {
 	public static void raspberryPiSetup() throws Exception {
 		Gpio.wiringPiSetup();
 		
-		final SharedLCD lcd = new SharedLCD(RaspiPin.GPIO_02, 2, 16);
+		final SharedRGBLCD2x16 lcd = new SharedRGBLCD2x16(RaspiPin.GPIO_02, RaspiPin.GPIO_12, RaspiPin.GPIO_13, RaspiPin.GPIO_14);
 		lcd.clearAndWrite(0, "Initializing...", LCDTextAlignment.ALIGN_CENTER);
 		
 		//Loads sampler
@@ -41,9 +42,31 @@ public class Controller {
 		SampleButton.provisionSampleButton(BUTTON_1_PIN, 0, lcd);
 		SampleButton.provisionSampleButton(BUTTON_2_PIN, 1, lcd);
 		
-		RotaryEncoder enc = new RotaryEncoder(RaspiPin.GPIO_27, RaspiPin.GPIO_28, lcd);
+//		RotaryEncoder enc = new RotaryEncoder(RaspiPin.GPIO_27, RaspiPin.GPIO_28, lcd);
 
+		//cycle through colors
 		lcd.clearAndWrite(0, "Ready", LCDTextAlignment.ALIGN_CENTER);
+		for(int r = 100; r >= 0; r--) {
+			for(int g = 0; g <= 100; g++) {
+				lcd.setColor(r, g, 0);
+				Thread.currentThread().sleep(5);
+			}
+		}
+		for(int g = 100; g >= 0; g--) {
+			for(int b = 0; b <= 100; b++) {
+				lcd.setColor(0, g, b);
+				Thread.currentThread().sleep(5);
+			}
+		}
+		for(int b = 100; b >= 0; b--) {
+			for(int r = 0; r <= 100; r++) {
+				lcd.setColor(r, 0, b);
+				Thread.currentThread().sleep(5);
+			}
+		}
+		
+		//Green
+		lcd.setColor(0, 100, 0);
         // keep program running until user aborts (CTRL-C)
         while(true) {
             Thread.sleep(200);

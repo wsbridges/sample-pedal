@@ -45,18 +45,18 @@ public class SharedRGBLCD extends SharedLCD implements BacklitLCD {
 	 * @param bluePercent
 	 */
 	public void setColor(int redPercent, int greenPercent, int bluePercent) {
-		this.redPercent = LCDUtils.validatePercent(redPercent);
-		this.greenPercent = LCDUtils.validatePercent(greenPercent);
-		this.bluePercent = LCDUtils.validatePercent(bluePercent);
+		this.redPercent = 100 - LCDUtils.validatePercent(redPercent);
+		this.greenPercent = 100 - LCDUtils.validatePercent(greenPercent);
+		this.bluePercent = 100 - LCDUtils.validatePercent(bluePercent);
 		
 		turnOnBacklight();
 	}
 
 	@Override
 	public void turnOffBacklight() {
-		SoftPwm.softPwmWrite(redPin.getAddress(), 0);
-		SoftPwm.softPwmWrite(greenPin.getAddress(), 0);
-		SoftPwm.softPwmWrite(bluePin.getAddress(), 0);
+		SoftPwm.softPwmWrite(redPin.getAddress(), 100);
+		SoftPwm.softPwmWrite(greenPin.getAddress(), 100);
+		SoftPwm.softPwmWrite(bluePin.getAddress(), 100);
 	}
 
 	@Override

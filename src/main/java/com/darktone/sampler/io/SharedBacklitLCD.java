@@ -16,7 +16,8 @@ public class SharedBacklitLCD extends SharedLCD implements BacklitLCD {
 	}
 	
 	public void setBrightness(int brightness) {
-		this.brightness = LCDUtils.validatePercent(brightness);
+		//Inverting since LCD works on common anode
+		this.brightness = 100 - LCDUtils.validatePercent(brightness);
 		turnOnBacklight();
 	}
 
