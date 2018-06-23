@@ -1,6 +1,12 @@
 package com.darktone.sampler.io;
 
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioFactory;
+import com.pi4j.io.gpio.GpioPinDigitalInput;
+import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.Pin;
+import com.pi4j.io.gpio.PinPullResistance;
+import com.pi4j.io.gpio.PinState;
 import com.pi4j.wiringpi.SoftPwm;
 
 /**
@@ -14,6 +20,10 @@ public class SharedRGBLCD extends SharedLCD implements BacklitLCD {
 	private Pin greenPin;
 	private Pin bluePin;
 	
+	GpioPinDigitalOutput red;
+	GpioPinDigitalOutput green;
+	GpioPinDigitalOutput blue;
+	
 	private int redPercent=100;
 	private int greenPercent=100;
 	private int bluePercent=100;
@@ -24,11 +34,22 @@ public class SharedRGBLCD extends SharedLCD implements BacklitLCD {
 		this.greenPin = greenPin;
 		this.bluePin = bluePin;
 		
-		SoftPwm.softPwmCreate(redPin.getAddress(), 0, 100);
-		SoftPwm.softPwmCreate(greenPin.getAddress(), 0, 100);
-		SoftPwm.softPwmCreate(bluePin.getAddress(), 0, 100);
+		final GpioController gpio = GpioFactory.getInstance();
+		red = gpio.provisionDigitalOutputPin(redPin, PinState.HIGH);
+		green = gpio.provisionDigitalOutputPin(greenPin, PinState.HIGH);
+		blue = gpio.provisionDigitalOutputPin(bluePin, PinState.HIGH);
+		
+//		SoftPwm.softPwmCreate(redPin.getAddress(), 0, 100);
+//		SoftPwm.softPwmCreate(greenPin.getAddress(), 0, 100);
+//		SoftPwm.softPwmCreate(bluePin.getAddress(), 0, 100);
 		
 		turnOnBacklight();
+	}
+	
+	public void setColor( boolean redOn, boolean greenOn, boolean blueOn) {
+		red.setState(!redOn);
+		green.setState(!greenOn);
+		blue.setState(!blueOn);
 	}
 	
 	/**

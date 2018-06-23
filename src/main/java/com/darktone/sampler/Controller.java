@@ -46,27 +46,31 @@ public class Controller {
 
 		//cycle through colors
 		lcd.clearAndWrite(0, "Ready", LCDTextAlignment.ALIGN_CENTER);
-		for(int r = 100; r >= 0; r--) {
-			for(int g = 0; g <= 100; g++) {
-				lcd.setColor(r, g, 0);
-				Thread.currentThread().sleep(5);
-			}
-		}
-		for(int g = 100; g >= 0; g--) {
-			for(int b = 0; b <= 100; b++) {
-				lcd.setColor(0, g, b);
-				Thread.currentThread().sleep(5);
-			}
-		}
-		for(int b = 100; b >= 0; b--) {
-			for(int r = 0; r <= 100; r++) {
-				lcd.setColor(r, 0, b);
-				Thread.currentThread().sleep(5);
-			}
-		}
+		lcd.setColor(true, true, true);
+		Thread.sleep(1000);
+		lcd.clearAndWrite(0, "White", LCDTextAlignment.ALIGN_CENTER);
+		lcd.setColor(true, false, false);
+		Thread.sleep(1000);
+		lcd.clearAndWrite(0, "Red", LCDTextAlignment.ALIGN_CENTER);
+		lcd.setColor(true, true, false);
+		Thread.sleep(1000);
+		lcd.clearAndWrite(0, "Yellow", LCDTextAlignment.ALIGN_CENTER);
+		lcd.setColor(false, true, false);
+		Thread.sleep(1000);
+		lcd.clearAndWrite(0, "Green", LCDTextAlignment.ALIGN_CENTER);
+		lcd.setColor(false, true, true);
+		Thread.sleep(1000);
+		lcd.clearAndWrite(0, "Blue Green", LCDTextAlignment.ALIGN_CENTER);
+		lcd.setColor(false, false, true);
+		Thread.sleep(1000);
+		lcd.clearAndWrite(0, "Blue", LCDTextAlignment.ALIGN_CENTER);
+		lcd.setColor(true, false, true);
+		Thread.sleep(1000);
+		lcd.clearAndWrite(0, "Purple", LCDTextAlignment.ALIGN_CENTER);
+		Thread.sleep(1000);
 		
-		//Green
-		lcd.setColor(0, 100, 0);
+		//White
+		lcd.setColor(true, true, true);
         // keep program running until user aborts (CTRL-C)
         while(true) {
             Thread.sleep(200);
