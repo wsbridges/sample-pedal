@@ -45,32 +45,31 @@ public class Controller {
 //		RotaryEncoder enc = new RotaryEncoder(RaspiPin.GPIO_27, RaspiPin.GPIO_28, lcd);
 
 		//cycle through colors
-		lcd.clearAndWrite(0, "Ready", LCDTextAlignment.ALIGN_CENTER);
 		lcd.setColor(true, true, true);
-		Thread.sleep(1000);
 		lcd.clearAndWrite(0, "White", LCDTextAlignment.ALIGN_CENTER);
+		Thread.sleep(1000);
 		lcd.setColor(true, false, false);
-		Thread.sleep(1000);
 		lcd.clearAndWrite(0, "Red", LCDTextAlignment.ALIGN_CENTER);
+		Thread.sleep(1000);
 		lcd.setColor(true, true, false);
-		Thread.sleep(1000);
 		lcd.clearAndWrite(0, "Yellow", LCDTextAlignment.ALIGN_CENTER);
+		Thread.sleep(1000);
 		lcd.setColor(false, true, false);
-		Thread.sleep(1000);
 		lcd.clearAndWrite(0, "Green", LCDTextAlignment.ALIGN_CENTER);
+		Thread.sleep(1000);
 		lcd.setColor(false, true, true);
-		Thread.sleep(1000);
 		lcd.clearAndWrite(0, "Blue Green", LCDTextAlignment.ALIGN_CENTER);
+		Thread.sleep(1000);
 		lcd.setColor(false, false, true);
-		Thread.sleep(1000);
 		lcd.clearAndWrite(0, "Blue", LCDTextAlignment.ALIGN_CENTER);
-		lcd.setColor(true, false, true);
 		Thread.sleep(1000);
+		lcd.setColor(true, false, true);
 		lcd.clearAndWrite(0, "Purple", LCDTextAlignment.ALIGN_CENTER);
 		Thread.sleep(1000);
 		
 		//White
 		lcd.setColor(true, true, true);
+		lcd.clearAndWrite(0, "Ready", LCDTextAlignment.ALIGN_CENTER);
         // keep program running until user aborts (CTRL-C)
         while(true) {
             Thread.sleep(200);
