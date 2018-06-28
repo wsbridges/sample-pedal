@@ -1,92 +1,58 @@
 package com.darktone.sampler.io;
 
+import com.darktone.sampler.Configuration;
+import com.pi4j.component.lcd.LCDTextAlignment;
+import com.pi4j.component.lcd.impl.GpioLcdDisplay;
+import com.pi4j.gpio.extension.mcp.MCP23017GpioProvider;
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
-import com.pi4j.io.gpio.GpioPinDigitalInput;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.Pin;
-import com.pi4j.io.gpio.PinPullResistance;
 import com.pi4j.io.gpio.PinState;
-import com.pi4j.wiringpi.SoftPwm;
+import com.pi4j.io.i2c.I2CBus;
 
 /**
- * For LCDs with RGB backlights
+ * For LCDs with RGB backlights. LCDs controlled with MCP23017
+ * expander chip.
  * 
  * @author Bill
  */
-public class SharedRGBLCD extends SharedLCD implements BacklitLCD {
-	
-	private Pin redPin;
-	private Pin greenPin;
-	private Pin bluePin;
+public class SharedRGBLCD extends GpioLcdDisplay {
 	
 	GpioPinDigitalOutput red;
 	GpioPinDigitalOutput green;
 	GpioPinDigitalOutput blue;
 	
-	private int redPercent=100;
-	private int greenPercent=100;
-	private int bluePercent=100;
-	
-	public SharedRGBLCD(Pin ePin, Pin redPin, Pin greenPin, Pin bluePin, int rows, int cols) {
-		super(ePin, rows, cols);
-		this.redPin = redPin;
-		this.greenPin = greenPin;
-		this.bluePin = bluePin;
+	public SharedRGBLCD(Pin ePin, Pin redPin, Pin greenPin, Pin bluePin, int rows, int cols) throws Exception {
+		super(rows, cols, Configuration.LCD_RS, ePin, Configuration.LCD_D4, Configuration.LCD_D5, Configuration.LCD_D6, Configuration.LCD_D7);
 		
 		final GpioController gpio = GpioFactory.getInstance();
-		red = gpio.provisionDigitalOutputPin(redPin, PinState.HIGH);
-		green = gpio.provisionDigitalOutputPin(greenPin, PinState.HIGH);
-		blue = gpio.provisionDigitalOutputPin(bluePin, PinState.HIGH);
-		
-//		SoftPwm.softPwmCreate(redPin.getAddress(), 0, 100);
-//		SoftPwm.softPwmCreate(greenPin.getAddress(), 0, 100);
-//		SoftPwm.softPwmCreate(bluePin.getAddress(), 0, 100);
+		MCP23017GpioProvider provider = new MCP23017GpioProvider(I2CBus.BUS_1, 0x20);
+		red = gpio.provisionDigitalOutputPin(provider, redPin, PinState.HIGH);
+		green = gpio.provisionDigitalOutputPin(provider, greenPin, PinState.HIGH);
+		blue = gpio.provisionDigitalOutputPin(provider, bluePin, PinState.HIGH);
 		
 		turnOnBacklight();
 	}
+    
+    public void clearAndWrite(int row, String data, LCDTextAlignment alignment) {
+    	this.clear();
+    	this.setCursorHome();
+    	this.write(0, data, alignment);
+    }
 	
-	public void setColor( boolean redOn, boolean greenOn, boolean blueOn) {
-		red.setState(!redOn);
-		green.setState(!greenOn);
-		blue.setState(!blueOn);
-	}
-	
-	/**
-	 * Sets RGB color of backlight. Values for each color can be 0-100.
-	 * 
-	 * Examples: 
-	 * 	- setColor(100, 0, 0) would be red
-	 * 	- setColor(0, 100, 0) would be green
-	 * 	- setColor(100, 0, 100) would be purple
-	 * 	- setColor(50, 0, 50) would be a dimmer purple
-	 * 
-	 * @param redPercent
-	 * @param greenPercent
-	 * @param bluePercent
-	 */
-	public void setColor(int redPercent, int greenPercent, int bluePercent) {
-		this.redPercent = 100 - LCDUtils.validatePercent(redPercent);
-		this.greenPercent = 100 - LCDUtils.validatePercent(greenPercent);
-		this.bluePercent = 100 - LCDUtils.validatePercent(bluePercent);
-		
-		turnOnBacklight();
+	public void setColor(Color color) {
+		red.setState(!color.isRedOn());
+		green.setState(!color.isGreenOn());
+		blue.setState(!color.isBlueOn());
 	}
 
-	@Override
 	public void turnOffBacklight() {
-		SoftPwm.softPwmWrite(redPin.getAddress(), 100);
-		SoftPwm.softPwmWrite(greenPin.getAddress(), 100);
-		SoftPwm.softPwmWrite(bluePin.getAddress(), 100);
+		setColor(Color.OFF);
 	}
 
-	@Override
 	public void turnOnBacklight() {
-		//Set the backlight to where it was when it was last on
-		//The default is white
-		SoftPwm.softPwmWrite(redPin.getAddress(), redPercent);
-		SoftPwm.softPwmWrite(greenPin.getAddress(), greenPercent);
-		SoftPwm.softPwmWrite(bluePin.getAddress(), bluePercent);
+		setColor(Color.WHITE);
 	}
 	
 }
