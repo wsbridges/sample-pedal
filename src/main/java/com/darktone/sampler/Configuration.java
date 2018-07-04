@@ -17,6 +17,11 @@ public class Configuration {
 	public final static Pin LCD1_GREEN = MCP23017Pin.GPIO_A6;
 	public final static Pin LCD1_BLUE = MCP23017Pin.GPIO_A5;
 	
+	public final static Pin LCD2_E = RaspiPin.GPIO_10;
+	public final static Pin LCD2_RED = MCP23017Pin.GPIO_A4;
+	public final static Pin LCD2_GREEN = MCP23017Pin.GPIO_A3;
+	public final static Pin LCD2_BLUE = MCP23017Pin.GPIO_A2;
+	
 	public final static Pin LCD_RS = RaspiPin.GPIO_00;  //LCD RS pin
 	public final static Pin LCD_D4 = RaspiPin.GPIO_03;  //LCD data bit D4
 	public final static Pin LCD_D5 = RaspiPin.GPIO_05;  //LCD data bit D5

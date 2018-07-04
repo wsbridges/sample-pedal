@@ -6,7 +6,9 @@ package com.darktone.sampler;
 
 import com.darktone.sampler.io.Color;
 import com.darktone.sampler.io.SampleButton;
+import com.darktone.sampler.io.SharedRGBLCD;
 import com.darktone.sampler.io.SharedRGBLCD2x16;
+import com.darktone.sampler.io.SharedRGBLCD4x20;
 import com.pi4j.component.lcd.LCDTextAlignment;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.RaspiPin;
@@ -33,7 +35,11 @@ public class Controller {
 		
 		final SharedRGBLCD2x16 lcd = new SharedRGBLCD2x16(Configuration.LCD1_E, Configuration.LCD1_RED, Configuration.LCD1_GREEN, Configuration.LCD1_BLUE);
 		lcd.turnOnBacklight();
-		lcd.clearAndWrite(0, "Initializing...", LCDTextAlignment.ALIGN_CENTER);
+		lcd.clearAndWrite(0, "Initializing LCD1...", LCDTextAlignment.ALIGN_CENTER);
+		
+		final SharedRGBLCD4x20 lcd2 = new SharedRGBLCD4x20(Configuration.LCD2_E, Configuration.LCD2_RED, Configuration.LCD2_GREEN, Configuration.LCD2_BLUE);
+		lcd2.turnOnBacklight();
+		lcd2.clearAndWrite(1, "Initializing LCD2...", LCDTextAlignment.ALIGN_CENTER);
 		
 		//Loads sampler
 		Sampler.createInstance();
@@ -44,6 +50,17 @@ public class Controller {
 //		RotaryEncoder enc = new RotaryEncoder(RaspiPin.GPIO_27, RaspiPin.GPIO_28, lcd);
 
 		//cycle through colors
+        cycleColors(lcd);
+        cycleColors(lcd2);
+		
+		// keep program running until user aborts (CTRL-C)
+        while(true) {
+            Thread.sleep(200);
+            
+        }
+	}
+	
+	public static void cycleColors(SharedRGBLCD lcd) throws Exception {
 		lcd.setColor(Color.WHITE);
 		lcd.clearAndWrite(0, "White", LCDTextAlignment.ALIGN_CENTER);
 		Thread.sleep(1000);
@@ -69,11 +86,6 @@ public class Controller {
 		//White
 		lcd.setColor(Color.WHITE);
 		lcd.clearAndWrite(0, "Ready", LCDTextAlignment.ALIGN_CENTER);
-        // keep program running until user aborts (CTRL-C)
-        while(true) {
-            Thread.sleep(200);
-            
-        }
 	}
 	
 	//For debugging. TODO: remove this
