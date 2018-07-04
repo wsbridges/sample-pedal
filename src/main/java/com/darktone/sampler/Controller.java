@@ -6,6 +6,7 @@ package com.darktone.sampler;
 
 import com.darktone.sampler.io.Color;
 import com.darktone.sampler.io.SampleButton;
+import com.darktone.sampler.io.SharedMultiColorLCD;
 import com.darktone.sampler.io.SharedRGBLCD;
 import com.darktone.sampler.io.SharedRGBLCD2x16;
 import com.darktone.sampler.io.SharedRGBLCD4x20;
@@ -33,9 +34,12 @@ public class Controller {
 	public static void raspberryPiSetup() throws Exception {
 		Gpio.wiringPiSetup();
 		
-		final SharedRGBLCD2x16 lcd = new SharedRGBLCD2x16(Configuration.LCD1_E, Configuration.LCD1_RED, Configuration.LCD1_GREEN, Configuration.LCD1_BLUE);
-		lcd.turnOnBacklight();
-		lcd.clearAndWrite(0, "Initializing LCD1...", LCDTextAlignment.ALIGN_CENTER);
+		final SharedMultiColorLCD lcd = new SharedMultiColorLCD(Configuration.LCD1_E, 2, 16);
+		lcd.clearAndWrite(1, "Initializing LCD1...", LCDTextAlignment.ALIGN_CENTER);
+		lcd.cycleColors();
+//		final SharedRGBLCD2x16 lcd = new SharedRGBLCD2x16(Configuration.LCD1_E, Configuration.LCD1_RED, Configuration.LCD1_GREEN, Configuration.LCD1_BLUE);
+//		lcd.turnOnBacklight();
+//		lcd.clearAndWrite(0, "Initializing LCD1...", LCDTextAlignment.ALIGN_CENTER);
 		
 		final SharedRGBLCD4x20 lcd2 = new SharedRGBLCD4x20(Configuration.LCD2_E, Configuration.LCD2_RED, Configuration.LCD2_GREEN, Configuration.LCD2_BLUE);
 		lcd2.turnOnBacklight();
@@ -50,7 +54,7 @@ public class Controller {
 //		RotaryEncoder enc = new RotaryEncoder(RaspiPin.GPIO_27, RaspiPin.GPIO_28, lcd);
 
 		//cycle through colors
-        cycleColors(lcd);
+//        cycleColors(lcd);
         cycleColors(lcd2);
 		
 		// keep program running until user aborts (CTRL-C)
